@@ -1,5 +1,5 @@
 # Purge Empties
-Description to be written...
+Deletes all empty objects from the Blender scene while keeping mesh objects' transforms.
 
 # Installation
 * Install Blender from https://www.blender.org/download/;
