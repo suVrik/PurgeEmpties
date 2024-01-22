@@ -1,5 +1,5 @@
 '''
-    Copyright (C) 2023  Andrei Suvorau
+    Copyright (C) 2024  Andrei Suvorau
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 bl_info = {
     "name": "Purge Empties",
     "author": "Andrei Suvorau",
-    "version": (1, 0, 0),
+    "version": (1, 0, 1),
     "blender": (3, 00, 0),
     "location": "3D View > UI (Right Panel) > Tools",
     "description": ("Purge Empties"),
@@ -42,12 +42,13 @@ class PurgeEmpties_OT_purge(bpy.types.Operator):
         empties = [obj for obj in bpy.data.objects if obj.type == 'EMPTY']
 
         for obj in empties:
-          for child in obj.children:
-            child.matrix_local = obj.matrix_local @ child.matrix_local
-            
-            child.parent = obj.parent
+          if obj.instance_collection is None:
+            for child in obj.children:
+              child.matrix_local = obj.matrix_local @ child.matrix_local
+              
+              child.parent = obj.parent
 
-          bpy.data.objects.remove(obj, do_unlink = True)
+            bpy.data.objects.remove(obj, do_unlink = True)
 
         self.report({'INFO'}, 'Empties were purged.')
 
