@@ -39,7 +39,7 @@ class PurgeEmpties_OT_purge(bpy.types.Operator):
     def execute(self, context):
         bpy.ops.ed.undo_push(message = 'Purge Empties')
         
-        empties = [obj for obj in bpy.data.objects if obj.type == 'EMPTY']
+        empties = [obj for obj in bpy.data.objects if obj.type == 'EMPTY' and obj.empty_display_type == 'PLAIN_AXES']
 
         for obj in empties:
           if obj.instance_collection is None:
